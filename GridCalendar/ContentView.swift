@@ -8,14 +8,30 @@
 import SwiftUI
 
 struct ContentView: View {
+    let layout = [
+        GridItem(.flexible(minimum: 40)),
+        GridItem(.flexible(minimum: 40)),
+        GridItem(.flexible(minimum: 40)),
+        GridItem(.flexible(minimum: 40)),
+        GridItem(.flexible(minimum: 40)),
+        GridItem(.flexible(minimum: 40)),
+        GridItem(.flexible(minimum: 40))
+    ]
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        ScrollView{
+            LazyVGrid(columns: layout, pinnedViews: [.sectionHeaders]) {
+                ForEach(year, id: \.name) {month in
+                    Section(header: Text(verbatim: month.name).font(.headline)){
+                        ForEach(month.days) {day in
+                            Capsule()
+                                .overlay(Text("\(day.value)").foregroundStyle(Color.white))
+                                .foregroundStyle(Color.blue)
+                                .frame(height: 40)
+                        }
+                    }
+                }
+            }
         }
-        .padding()
     }
 }
 
